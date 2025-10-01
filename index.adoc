@@ -46,7 +46,7 @@ Al finalizar esta sesión, el estudiante habrá desarrollado las siguientes comp
 
 == Fundamentos Teóricos
 
-=== 2.1. Automatización de la Ejecución: El `Schedule Trigger`
+=== Automatización de la Ejecución: El `Schedule Trigger`
 
 En la práctica anterior, utilizamos el `Manual Trigger` para tener un control total durante el desarrollo. Sin embargo, el verdadero poder de la automatización reside en la ejecución desatendida. El `Schedule Trigger` (también conocido como "Cron" o "Disparador Programado") es el nodo que habilita esta capacidad, iniciando un flujo de trabajo automáticamente en momentos predefinidos.
 
@@ -58,7 +58,7 @@ La configuración del `Schedule Trigger` ofrece varios modos de operación para 
 
 Un aspecto crítico al usar el `Schedule Trigger` es la *zona horaria*. El nodo se ejecutará según la zona horaria configurada en la instancia de n8n o, si se especifica, la zona horaria del flujo de trabajo individual. Una configuración incorrecta de la zona horaria es una fuente común de errores, provocando que las automatizaciones se ejecuten en momentos inesperados.
 
-=== 2.2. Lógica Condicional: El Nodo `IF`
+=== Lógica Condicional: El Nodo `IF`
 
 Un flujo de trabajo lineal, que ejecuta siempre los mismos pasos, tiene una utilidad limitada. La verdadera inteligencia en la automatización surge de la capacidad de tomar decisiones. El nodo `IF` es la herramienta principal en n8n para introducir lógica condicional. Permite evaluar una o más condiciones y bifurcar el flujo de trabajo en dos caminos distintos: una salida `true` (verdadero) para los ítems que cumplen la condición y una salida `false` (falso) para los que no.
 
@@ -70,7 +70,7 @@ La configuración de un nodo `IF` se basa en la definición de una o más reglas
 
 Cuando un flujo de trabajo tiene múltiples ítems de entrada, el nodo `IF` evalúa cada ítem de forma independiente, enviándolo por la rama `true` o `false` según corresponda. Esto permite, por ejemplo, procesar una lista de pedidos y enviar los pedidos de alto valor a un sistema de notificación y los de bajo valor a otro.
 
-=== 2.3. Manejo de Colecciones: APIs con Arrays y el Nodo `Split Out`
+=== Manejo de Colecciones: APIs con Arrays y el Nodo `Split Out`
 
 En la práctica anterior, la API de chistes devolvía un único objeto JSON. Sin embargo, es mucho más común que las APIs REST devuelvan una *colección de datos*, representada como un array de objetos. Por ejemplo, una petición a `/products` en una API de comercio electrónico devolverá un array donde cada objeto es un producto.
 
@@ -108,11 +108,11 @@ Al configurar el `Split Out`, se le indica el campo que contiene el array a "des
 
 Ahora, los datos están en el formato canónico que n8n espera: un array de ítems. Si esta salida se conecta a un nodo `IF`, este se ejecutará tres veces, permitiendo evaluar cada producto de forma individual. Dominar el patrón `HTTP Request` -> `Split Out` es esencial para trabajar con la gran mayoría de las APIs del mundo real.
 
-== Sección 3: Desarrollo del Flujo de Trabajo Guiado
+== Desarrollo del Flujo de Trabajo Guiado
 
 En esta sección, construiremos un flujo de trabajo que se ejecuta cada minuto, obtiene una lista de 5 chistes de programación, y luego los clasifica en "seguros" y "no seguros" para el trabajo.
 
-=== 3.1. Paso 1: Configurar el `Schedule Trigger`
+=== Paso 1: Configurar el `Schedule Trigger`
 
 . Cree un nuevo flujo de trabajo. Elimine el nodo `Start` inicial.
 . Haga clic en "Add first step" y busque y seleccione el nodo `Schedule Trigger`.
@@ -122,7 +122,7 @@ En esta sección, construiremos un flujo de trabajo que se ejecuta cada minuto, 
 ** *Trigger at Second:* `0`
 . Este nodo no necesita ser probado manualmente. Se activará una vez que el flujo de trabajo completo esté activo.
 
-=== 3.2. Paso 2: Obtener una Colección de Datos con `HTTP Request`
+=== Paso 2: Obtener una Colección de Datos con `HTTP Request`
 
 Ahora, vamos a pedir a JokeAPI que nos devuelva varios chistes a la vez. La documentación de la API indica que podemos usar el parámetro `amount` para este propósito.
 
@@ -133,7 +133,7 @@ Ahora, vamos a pedir a JokeAPI que nos devuelva varios chistes a la vez. La docu
 . Ejecute el nodo haciendo clic en `Test step`.
 . Analice la salida en la vista `JSON`. Observará que la respuesta es un único ítem. Dentro de la clave `json` de ese ítem, hay un booleano `error` y un array llamado `jokes`. Este array contiene 5 objetos, cada uno representando un chiste.
 
-=== 3.3. Paso 3: Procesar la Colección con `Split Out`
+=== Paso 3: Procesar la Colección con `Split Out`
 
 Como se explicó en la sección teórica, necesitamos convertir este único ítem con un array anidado en 5 ítems separados.
 
@@ -144,7 +144,7 @@ Como se explicó en la sección teórica, necesitamos convertir este único íte
 . Ejecute el nodo `Split Out` con `Test step`.
 . Observe la nueva salida. Ahora, en lugar de un ítem, tiene 5 ítems. Cada ítem es un objeto `json` que contiene las propiedades de un chiste individual (`category`, `joke`, `safe`, etc.). Ha transformado con éxito la estructura de datos para el procesamiento iterativo.
 
-=== 3.4. Paso 4: Implementar Lógica Condicional con `IF`
+=== Paso 4: Implementar Lógica Condicional con `IF`
 
 Ahora, vamos a usar un nodo `IF` para comprobar si cada chiste es "seguro" (la propiedad `safe` es `true`).
 
@@ -156,7 +156,7 @@ Ahora, vamos a usar un nodo `IF` para comprobar si cada chiste es "seguro" (la p
 . Ejecute el nodo `IF` con `Test step`.
 . En el panel de resultados, verá dos salidas: `true` y `false`. n8n mostrará cuántos de los 5 ítems de entrada han ido a cada rama.
 
-=== 3.5. Paso 5: Manejar las Ramas de Ejecución
+=== Paso 5: Manejar las Ramas de Ejecución
 
 Finalmente, añadiremos nodos `Edit Fields (Set)` a cada rama para ver claramente el resultado de nuestra clasificación.
 
@@ -177,7 +177,7 @@ Finalmente, añadiremos nodos `Edit Fields (Set)` a cada rama para ver clarament
 ** Active el flujo de trabajo usando el interruptor en la esquina superior derecha.
 ** Espere un minuto. Vaya a la pestaña "Executions" en el panel izquierdo. Debería ver una ejecución exitosa. Al hacer clic en ella, podrá inspeccionar la ruta que siguió cada uno de los 5 chistes a través de las ramas del nodo `IF`.
 
-== Sección 4: Ejercicios Propuestos
+== Ejercicios Propuestos
 
 Para consolidar los conocimientos adquiridos, se proponen los siguientes ejercicios. Deberán ser entregados como archivos JSON exportados desde n8n.
 
@@ -225,7 +225,7 @@ Para consolidar los conocimientos adquiridos, se proponen los siguientes ejercic
 ** Añadir un nodo `Edit Fields (Set)` para combinar la información del festivo con la actividad sugerida. La salida final para estos ítems debe contener, como mínimo, el nombre del festivo (`name`) y la actividad (`activity`).
 . La rama `false` (festivos no nacionales) no debe realizar ninguna acción adicional.
 
-== Sección 5: Conclusiones y Avance de la Próxima Práctica
+== Conclusiones y Avance de la Próxima Práctica
 
 En esta sesión, hemos dado un salto cualitativo en la complejidad y utilidad de nuestros flujos de trabajo. La introducción del `Schedule Trigger` nos ha permitido crear automatizaciones autónomas. Los nodos `IF` y `Split Out` nos han dotado de las herramientas para implementar lógica de negocio y procesar conjuntos de datos del mundo real, dos de las tareas más comunes en cualquier proyecto de integración de sistemas.
 
