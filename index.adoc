@@ -48,6 +48,10 @@ Al finalizar esta sesión, el estudiante habrá desarrollado las siguientes comp
 
 === Automatización de la Ejecución: El `Schedule Trigger`
 
+[.thumb]
+.Schedule Trigger
+image::1.png[Schedule Trigger, width=400, align=center, link="https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.scheduletrigger/", float=right]
+
 En la práctica anterior, utilizamos el `Manual Trigger` para tener un control total durante el desarrollo. Sin embargo, el verdadero poder de la automatización reside en la ejecución desatendida. El `Schedule Trigger` (también conocido como "Cron" o "Disparador Programado") es el nodo que habilita esta capacidad, iniciando un flujo de trabajo automáticamente en momentos predefinidos.
 
 La configuración del `Schedule Trigger` ofrece varios modos de operación para adaptarse a distintas necesidades de negocio:
@@ -58,7 +62,12 @@ La configuración del `Schedule Trigger` ofrece varios modos de operación para 
 
 Un aspecto crítico al usar el `Schedule Trigger` es la *zona horaria*. El nodo se ejecutará según la zona horaria configurada en la instancia de n8n o, si se especifica, la zona horaria del flujo de trabajo individual. Una configuración incorrecta de la zona horaria es una fuente común de errores, provocando que las automatizaciones se ejecuten en momentos inesperados.
 
+
 === Lógica Condicional: El Nodo `IF`
+
+[.thumb]
+.Nodo IF
+image::2.png[Nodo IF, width=400, align=center, link="https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.if/", float=right]
 
 Un flujo de trabajo lineal, que ejecuta siempre los mismos pasos, tiene una utilidad limitada. La verdadera inteligencia en la automatización surge de la capacidad de tomar decisiones. El nodo `IF` es la herramienta principal en n8n para introducir lógica condicional. Permite evaluar una o más condiciones y bifurcar el flujo de trabajo en dos caminos distintos: una salida `true` (verdadero) para los ítems que cumplen la condición y una salida `false` (falso) para los que no.
 
@@ -71,6 +80,10 @@ La configuración de un nodo `IF` se basa en la definición de una o más reglas
 Cuando un flujo de trabajo tiene múltiples ítems de entrada, el nodo `IF` evalúa cada ítem de forma independiente, enviándolo por la rama `true` o `false` según corresponda. Esto permite, por ejemplo, procesar una lista de pedidos y enviar los pedidos de alto valor a un sistema de notificación y los de bajo valor a otro.
 
 === Manejo de Colecciones: APIs con Arrays y el Nodo `Split Out`
+
+[.thumb]
+.Split Out
+image::3.png[Split Out, width=400, align=center, link="https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.splitout/", float=right]
 
 En la práctica anterior, la API de chistes devolvía un único objeto JSON. Sin embargo, es mucho más común que las APIs REST devuelvan una *colección de datos*, representada como un array de objetos. Por ejemplo, una petición a `/products` en una API de comercio electrónico devolverá un array donde cada objeto es un producto.
 
@@ -176,6 +189,10 @@ Finalmente, añadiremos nodos `Edit Fields (Set)` a cada rama para ver clarament
 ** Guarde el flujo de trabajo.
 ** Active el flujo de trabajo usando el interruptor en la esquina superior derecha.
 ** Espere un minuto. Vaya a la pestaña "Executions" en el panel izquierdo. Debería ver una ejecución exitosa. Al hacer clic en ella, podrá inspeccionar la ruta que siguió cada uno de los 5 chistes a través de las ramas del nodo `IF`.
+
+[.thumb]
+.Workflow Final
+image::4.png[Workflow Final, align=center, link=""]
 
 == Ejercicios Propuestos
 
