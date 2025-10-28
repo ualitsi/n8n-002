@@ -229,7 +229,7 @@ Para consolidar los conocimientos adquiridos, se proponen los siguientes ejercic
 
 *APIs a utilizar:*
 * Nager.Date API para festivos: `https://date.nager.at/api/v3/PublicHolidays/2025/ES`
-* Bored API para actividades: `https://www.boredapi.com/api/activity`
+* Bored API para actividades: `https://bored-api.appbrewery.com/random`
 
 *Requisitos:*
 
