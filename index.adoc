@@ -255,7 +255,8 @@ Para consolidar los conocimientos adquiridos, se proponen los siguientes ejercic
 . Implemente un nodo `IF` que compruebe si la temperatura (`{{ $json.current.temperature_2m }}`) es mayor que `30`.
 . En la rama `true`, añada un nodo `Edit Fields (Set)` que cree un campo `estado` con el valor `Alerta: calor extremo`.
 . En la rama `false`, el campo `estado` debe tener el valor `Temperatura normal`.
-. *Pregunta de reflexión:* ¿Qué pasaría si la API devolviera `null` o un error en lugar de una temperatura? Investigue cómo haría que el nodo `IF` no fallara en ese caso.
+
+*Pregunta de reflexión:* ¿Qué pasaría si la API devolviera `null` o un error en lugar de una temperatura? Investigue cómo haría que el nodo `IF` no fallara en ese caso.
 
 ==== Ejercicio 5: Clasificación de Usuarios por Edad (Dificultad: Media-Alta)
 
@@ -271,7 +272,8 @@ Para consolidar los conocimientos adquiridos, se proponen los siguientes ejercic
 . Implemente un nodo `IF` que compruebe si la edad del usuario es mayor que `50`. La edad está en un campo anidado: use la expresión `{{ $json.dob.age }}` como *Valor 1* y la operación `is greater than` con *Valor 2* `50`.
 . En la rama `true`, añada un nodo `Edit Fields (Set)` que cree un campo `grupo` con el valor `Mayor de 50`.
 . En la rama `false`, el campo `grupo` debe tener el valor `Menor o igual de 50`.
-. *Pregunta de reflexión:* Modifique el flujo para que, además de la edad, el campo `grupo` incluya también el nombre del usuario. Investigue cómo referenciar el nombre completo (`{{ $json.name.first }} {{ $json.name.last }}`) dentro del valor del campo.
+
+*Pregunta de reflexión:* Modifique el flujo para que, además de la edad, el campo `grupo` incluya también el nombre del usuario. Investigue cómo referenciar el nombre completo (`{{ $json.name.first }} {{ $json.name.last }}`) dentro del valor del campo.
 
 == Conclusiones y Avance de la Próxima Práctica
 
