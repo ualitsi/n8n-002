@@ -21,13 +21,13 @@ Manel Mena <manel.mena@ual.es>
 [abstract]
 == Resumen
 
-Resumen la Práctica 2
+Esta práctica introduce las herramientas que permiten a n8n ejecutar flujos de trabajo de forma autónoma, tomar decisiones y procesar conjuntos de datos. A lo largo de la sesión se construye un flujo de trabajo guiado que combina un `Schedule Trigger`, un `HTTP Request`, un `Split Out` y un `IF`, y se resuelven varios ejercicios de complejidad creciente para consolidar los conceptos.
 
 .Objetivos
 
 * Automatización de la Ejecución: El `Schedule Trigger`.
-* Lógica Condicional: El Nodo `IF`
-* Manejo de Colecciones: APIs con Arrays y el Nodo `Split Out`
+* Lógica Condicional: El Nodo `IF`.
+* Manejo de Colecciones: APIs con Arrays y el Nodo `Split Out`.
 
 // Modo numerado
 :numbered:
@@ -123,7 +123,7 @@ Ahora, los datos están en el formato canónico que n8n espera: un array de íte
 
 == Desarrollo del Flujo de Trabajo Guiado
 
-En esta sección, construiremos un flujo de trabajo que se ejecuta cada minuto, obtiene una lista de 5 chistes de programación, y luego los clasifica en "seguros" y "no seguros" para el trabajo.
+En esta sección, construiremos paso a paso un flujo de trabajo que se ejecuta cada minuto, obtiene una lista de 5 chistes de programación de la JokeAPI y los clasifica en "seguros" y "no seguros". Al finalizar, el flujo quedará activo y se ejecutará de forma autónoma.
 
 === Paso 1: Configurar el `Schedule Trigger`
 
@@ -225,7 +225,7 @@ Para consolidar los conocimientos adquiridos, se proponen los siguientes ejercic
 
 ==== Ejercicio 3: Planificador de Festivos (Dificultad: Alta)
 
-*Objetivo:* Crear un flujo de trabajo que obtenga los festivos de España para el año 2025, identifique cuáles son festivos nacionales y, solo para esos días, obtenga una actividad aleatoria para hacer.
+*Objetivo:* Crear un flujo de trabajo que obtenga los festivos de España para el año 2027, identifique cuáles son festivos nacionales y, solo para esos días, obtenga una actividad aleatoria para hacer.
 
 *APIs a utilizar:*
 * Nager.Date API para festivos: `https://date.nager.at/api/v3/PublicHolidays/2025/ES`
@@ -234,13 +234,44 @@ Para consolidar los conocimientos adquiridos, se proponen los siguientes ejercic
 *Requisitos:*
 
 . El flujo de trabajo debe iniciarse manually (`Manual Trigger`).
-. Obtener la lista de festivos de España para 2025.
+. Obtener la lista de festivos de España para 2027.
 . Usar `Split Out` para procesar cada festivo.
 . Usar un nodo `IF` para determinar si un festivo es nacional. (Pista: el campo `global` en la respuesta de la API es un booleano que indica esto).
 . *Solo para la rama `true` (festivos nacionales):*
 ** Añadir un segundo nodo `HTTP Request` que llame a la Bored API para obtener una actividad aleatoria.
 ** Añadir un nodo `Edit Fields (Set)` para combinar la información del festivo con la actividad sugerida. La salida final para estos ítems debe contener, como mínimo, el nombre del festivo (`name`) y la actividad (`activity`).
 . La rama `false` (festivos no nacionales) no debe realizar ninguna acción adicional.
+
+==== Ejercicio 4: Alerta de Temperatura (Dificultad: Media)
+
+*Objetivo:* Crear un flujo de trabajo que se ejecute de forma autónoma y compruebe la temperatura actual de una ciudad, generando una alerta cuando se supere un umbral. A diferencia de los ejercicios anteriores, aquí la API devuelve un *único* objeto (no una colección), por lo que no se necesita `Split Out`.
+
+*API a utilizar:* Open-Meteo (gratuita, sin clave API): `https://api.open-meteo.com/v1/forecast?latitude=40.4168&longitude=-3.7038&current=temperature_2m&timezone=auto` (coordenadas de Madrid).
+
+*Requisitos:*
+
+. El flujo de trabajo debe iniciarse con un `Schedule Trigger` que se ejecute cada hora.
+. Use un `HTTP Request` para obtener la temperatura actual.
+. Implemente un nodo `IF` que compruebe si la temperatura (`{{ $json.current.temperature_2m }}`) es mayor que `30`.
+. En la rama `true`, añada un nodo `Edit Fields (Set)` que cree un campo `estado` con el valor `Alerta: calor extremo`.
+. En la rama `false`, el campo `estado` debe tener el valor `Temperatura normal`.
+. *Pregunta de reflexión:* ¿Qué pasaría si la API devolviera `null` o un error en lugar de una temperatura? Investigue cómo haría que el nodo `IF` no fallara en ese caso.
+
+==== Ejercicio 5: Clasificación de Usuarios por Edad (Dificultad: Media-Alta)
+
+*Objetivo:* Crear un flujo de trabajo que obtenga una lista de usuarios ficticios, la procese individualmente y los clasifique en función de su edad. Este ejercicio pone el foco en el acceso a *campos anidados* dentro de cada ítem.
+
+*API a utilizar:* Random User API (gratuita, sin clave API): `https://randomuser.me/api/?results=10`
+
+*Requisitos:*
+
+. El flujo de trabajo debe iniciarse con un `Manual Trigger`.
+. Use un `HTTP Request` para obtener 10 usuarios. Observe que la respuesta es un único ítem que contiene un array `results` con 10 objetos.
+. Use un `Split Out` sobre el campo `results` para obtener 10 ítems.
+. Implemente un nodo `IF` que compruebe si la edad del usuario es mayor que `50`. La edad está en un campo anidado: use la expresión `{{ $json.dob.age }}` como *Valor 1* y la operación `is greater than` con *Valor 2* `50`.
+. En la rama `true`, añada un nodo `Edit Fields (Set)` que cree un campo `grupo` con el valor `Mayor de 50`.
+. En la rama `false`, el campo `grupo` debe tener el valor `Menor o igual de 50`.
+. *Pregunta de reflexión:* Modifique el flujo para que, además de la edad, el campo `grupo` incluya también el nombre del usuario. Investigue cómo referenciar el nombre completo (`{{ $json.name.first }} {{ $json.name.last }}`) dentro del valor del campo.
 
 == Conclusiones y Avance de la Próxima Práctica
 
