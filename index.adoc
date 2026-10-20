@@ -164,7 +164,7 @@ Ahora, vamos a usar un nodo `IF` para comprobar si cada chiste es "seguro" (la p
 . Añada un nodo `IF` después del `Split Out`.
 . Configure la condición:
 ** En la sección *Conditions*, haga clic en *Add Condition*.
-** *Value 1:* Haga clic en el engranaje, seleccione `Add Expression` y escriba `{{ $json.safe }}`.
+** *Value 1:* Haga clic en el engranaje, seleccione `Add Expression` y escriba `{{ $json.jokes.safe }}`.
 ** *Operation:* `Boolean` -> `is true`.
 . Ejecute el nodo `IF` con `Test step`.
 . En el panel de resultados, verá dos salidas: `true` y `false`. n8n mostrará cuántos de los 5 ítems de entrada han ido a cada rama.
@@ -218,7 +218,6 @@ Para consolidar los conocimientos adquiridos, se proponen los siguientes ejercic
 
 . El flujo de trabajo debe iniciarse con un `Schedule Trigger` que se ejecute una vez al día.
 . Debe usar un `HTTP Request` para obtener la lista completa de productos de la API.
-. Utilice un `Split Out` para procesar cada producto individualmente.
 . Implemente un nodo `IF` para separar los productos en dos grupos: aquellos cuyo precio (`price`) es superior a 100 y aquellos cuyo precio es 100 o inferior.
 . Para los productos caros (rama `true`), añada un nodo `Edit Fields (Set)` que cree un campo `etiqueta` con el valor `Producto Premium`.
 . Para los productos económicos (rama `false`), el campo `etiqueta` debe tener el valor `Producto Estándar`.
