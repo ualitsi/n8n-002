@@ -268,7 +268,7 @@ Para consolidar los conocimientos adquiridos, se proponen los siguientes ejercic
 . El flujo de trabajo debe iniciarse con un `Manual Trigger`.
 . Use un `HTTP Request` para obtener 10 usuarios. Observe que la respuesta es un único ítem que contiene un array `results` con 10 objetos.
 . Use un `Split Out` sobre el campo `results` para obtener 10 ítems.
-. Implemente un nodo `IF` que compruebe si la edad del usuario es mayor que `50`. La edad está en un campo anidado: use la expresión `{{ $json.dob.age }}` como *Valor 1* y la operación `is greater than` con *Valor 2* `50`.
+. Implemente un nodo `IF` que compruebe si la edad del usuario es mayor que `50`. La edad está en un campo anidado: use la expresión `{{ $json.result.dob.age }}` como *Valor 1* y la operación `is greater than` con *Valor 2* `50`.
 . En la rama `true`, añada un nodo `Edit Fields (Set)` que cree un campo `grupo` con el valor `Mayor de 50`.
 . En la rama `false`, el campo `grupo` debe tener el valor `Menor o igual de 50`.
 
